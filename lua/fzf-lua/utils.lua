@@ -647,7 +647,7 @@ end
 function M.hexcol_from_hl(hlgroup, what, mode)
   if not hlgroup or not what then return end
   local hexcol = synIDattr(hlgroup, what, mode)
-  if hexcol and not hexcol:match("^#") then
+  if hexcol and not hexcol:match("^#") and not hexcol:match("^%d+$") then
     -- try to acquire the color from the map
     -- some schemes don't capitalize first letter?
     local col = M.COLORMAP()[hexcol:sub(1, 1):upper() .. hexcol:sub(2)]
