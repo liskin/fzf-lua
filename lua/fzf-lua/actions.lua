@@ -543,8 +543,10 @@ end
 
 M.exec_menu = function(selected)
   if not selected[1] then return end
-  local cmd = selected[1]
-  vim.cmd(string.format("emenu %s %s", utils.__CTX().mode, cmd))
+  local menu = selected[1]
+  local keys = string.format("<Cmd>emenu %s<CR>", menu:gsub("<", "<lt>"))
+  keys = vim.api.nvim_replace_termcodes(keys, true, true, true)
+  vim.api.nvim_feedkeys(keys, 'nt', false)
 end
 
 
