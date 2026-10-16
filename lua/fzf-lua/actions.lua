@@ -544,8 +544,9 @@ end
 M.exec_menu = function(selected)
   if not selected[1] then return end
   local menu = selected[1]
-  local keys = string.format("<Cmd>emenu %s<CR>", menu:gsub("<", "<lt>"))
-  keys = vim.api.nvim_replace_termcodes(keys, true, true, true)
+  local k_cmd = vim.api.nvim_replace_termcodes("<Cmd>", true, false, true)
+  local cmd = vim.fn.json_encode("emenu " .. vim.fn.escape(menu, "\\ |"))
+  local keys = string.format("%sexecute %s\r", k_cmd, cmd)
   vim.api.nvim_feedkeys(keys, 'nt', false)
 end
 
