@@ -527,16 +527,17 @@ end
 
 M.ex_run = function(selected)
   if not selected[1] then return end
-  local cmd = selected[1]
+  local k_lf = vim.api.nvim_replace_termcodes("<C-V>\n", true, false, true)
+  local cmd = table.concat(selected, k_lf)
   vim.cmd("stopinsert")
   vim.fn.feedkeys(string.format(":%s", cmd), "nt")
 end
 
 M.ex_run_cr = function(selected)
   if not selected[1] then return end
-  local cmd = selected[1]
-  local keys = string.format("<Cmd>%s<CR>", cmd:gsub("<", "<lt>"))
-  keys = vim.api.nvim_replace_termcodes(keys, true, true, true)
+  local cmd = table.concat(selected, "\n")
+  local k_cmd = vim.api.nvim_replace_termcodes("<Cmd>", true, false, true)
+  local keys = string.format("%sexecute %s\r", k_cmd, vim.fn.json_encode(cmd))
   vim.api.nvim_feedkeys(keys, 'nt', false)
   vim.fn.histadd("cmd", cmd)
 end
